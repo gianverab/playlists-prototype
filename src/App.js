@@ -11,6 +11,22 @@ class Aggregate extends Component {
     );
   }
 }
+
+class Filter extends Component {
+  render() {
+    return (
+      <div className="app-filter">
+        <form action="">
+          <label htmlFor="filter">
+            <input type="text" id="filter" />
+            Filter
+          </label>
+        </form>
+      </div>
+    );
+  }
+}
+
 class App extends Component {
   render() {
     return (
@@ -22,6 +38,7 @@ class App extends Component {
         <main className="app-main">
           <Aggregate />
           <Aggregate />
+          <Filter />
         </main>
       </div>
     );
