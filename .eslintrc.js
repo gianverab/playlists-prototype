@@ -26,6 +26,8 @@ module.exports = {
     "function-paren-newline": 0,
     "linebreak-style": 0,
     "react/no-did-mount-set-state": 0,
+    "react/prefer-stateless-function": 0,
+    "react/no-multi-comp": 0,
     "jsx-a11y/anchor-is-valid": 0
   }
 };
