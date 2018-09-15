@@ -27,6 +27,28 @@ class Filter extends Component {
   }
 }
 
+class Playlist extends Component {
+  constructor(props) {
+    super();
+
+    this.state = props;
+  }
+
+  render() {
+    return (
+      <div className={`app-playlist ${this.props.className}`}>
+        <img src="https://via.placeholder.com/200x150" alt="Playlist album cover" />
+        <h3>Playlist Name</h3>
+        <ul>
+          <li>Song 1</li>
+          <li>Song 2</li>
+          <li>Song 3</li>
+        </ul>
+      </div>
+    );
+  }
+}
+
 class App extends Component {
   render() {
     return (
@@ -39,6 +61,10 @@ class App extends Component {
           <Aggregate />
           <Aggregate />
           <Filter />
+          <Playlist className="row-1" />
+          <Playlist className="row-2" />
+          <Playlist className="row-3" />
+          <Playlist className="row-4" />
         </main>
       </div>
     );
