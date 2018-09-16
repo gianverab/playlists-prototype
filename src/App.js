@@ -8,37 +8,67 @@ const fakeServerData = {
     playlists: [
       {
         name: 'Lipocarpha rehmanii',
-        songs: ['Rehman’s Halfchaff Sedge', 'Little Floatingheart', 'Blue Ridge St. Johnswort'],
+        songs: [
+          { title: 'Rehman’s Halfchaff Sedge', duration: 180 },
+          { title: 'Little Floatingheart', duration: 175 },
+          { title: 'Blue Ridge St. Johnswort', duration: 232 },
+        ],
       },
       {
         name: 'Nymphoides cordata Fernald',
-        songs: ['Rooted Poppy', 'Lavender Thrift', 'Rough Star-thistle'],
+        songs: [
+          { title: 'Rooted Poppy', duration: 244 },
+          { title: 'Lavender Thrift', duration: 195 },
+          { title: 'Rough Star-thistle', duration: 228 },
+        ],
       },
       {
         name: 'Orbexilum stipulatum',
-        songs: ['Alpine Clover', 'Redberry Nightshade', 'Scaldweed'],
+        songs: [
+          { title: 'Alpine Clover', duration: 213 },
+          { title: 'Redberry Nightshade', duration: 256 },
+          { title: 'Scaldweed', duration: 198 },
+        ],
       },
       {
         name: 'Cuscuta gronovii Willd',
-        songs: ['Moor Rush', 'Largestipule Leather-root', 'Furcraea'],
+        songs: [
+          { title: 'Moor Rush', duration: 207 },
+          { title: 'Largestipule Leather-root', duration: 194 },
+          { title: 'Furcraea', duration: 118 },
+        ],
       },
     ],
   },
 };
 
-class Aggregate extends Component {
+class PlaylistCounter extends Component {
   render() {
     return (
       <div className="app-aggregate">
-        { this.props.playlists
-          && (
-          <h2>
-            {this.props.playlists.length}
-            {' '}
+        <h2>
+          {this.props.playlists.length}
+          {' '}
             Playlists
-          </h2>
-          )
-        }
+        </h2>
+      </div>
+    );
+  }
+}
+
+class TimeCounter extends Component {
+  render() {
+    const allSongs = this.props.playlists.reduce(
+      (songs, eachPlaylist) => songs.concat(eachPlaylist.songs), [],
+    );
+    const totalDuration = allSongs.reduce((sum, eachSong) => sum + eachSong.duration, 0);
+    return (
+      <div className="app-aggregate">
+        <h2>
+          {Math.floor(totalDuration / 60)}
+          {' '}
+            Minutes
+        </h2>
       </div>
     );
   }
@@ -105,10 +135,12 @@ class App extends Component {
                 </h1>
               </header>
               <main className="app-main">
-                <Aggregate
+                <PlaylistCounter
                   playlists={this.state.serverData.user.playlists}
                 />
-                <Aggregate />
+                <TimeCounter
+                  playlists={this.state.serverData.user.playlists}
+                />
                 <Filter />
                 <Playlist className="row-1" />
                 <Playlist className="row-2" />
