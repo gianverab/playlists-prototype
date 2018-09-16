@@ -7,35 +7,35 @@ const fakeServerData = {
     name: 'Gian',
     playlists: [
       {
-        name: 'Lipocarpha rehmanii',
+        playlistTitle: 'Lipocarpha rehmanii',
         songs: [
-          { title: 'Rehman’s Halfchaff Sedge', duration: 180 },
-          { title: 'Little Floatingheart', duration: 175 },
-          { title: 'Blue Ridge St. Johnswort', duration: 232 },
+          { songTitle: 'Rehman’s Halfchaff Sedge', duration: 180 },
+          { songTitle: 'Little Floatingheart', duration: 175 },
+          { songTitle: 'Blue Ridge St. Johnswort', duration: 232 },
         ],
       },
       {
-        name: 'Nymphoides cordata Fernald',
+        playlistTitle: 'Nymphoides cordata Fernald',
         songs: [
-          { title: 'Rooted Poppy', duration: 244 },
-          { title: 'Lavender Thrift', duration: 195 },
-          { title: 'Rough Star-thistle', duration: 228 },
+          { songTitle: 'Rooted Poppy', duration: 244 },
+          { songTitle: 'Lavender Thrift', duration: 195 },
+          { songTitle: 'Rough Star-thistle', duration: 228 },
         ],
       },
       {
-        name: 'Orbexilum stipulatum',
+        playlistTitle: 'Orbexilum stipulatum',
         songs: [
-          { title: 'Alpine Clover', duration: 213 },
-          { title: 'Redberry Nightshade', duration: 256 },
-          { title: 'Scaldweed', duration: 198 },
+          { songTitle: 'Alpine Clover', duration: 213 },
+          { songTitle: 'Redberry Nightshade', duration: 256 },
+          { songTitle: 'Scaldweed', duration: 198 },
         ],
       },
       {
-        name: 'Cuscuta gronovii Willd',
+        playlistTitle: 'Cuscuta gronovii Willd',
         songs: [
-          { title: 'Moor Rush', duration: 207 },
-          { title: 'Largestipule Leather-root', duration: 194 },
-          { title: 'Furcraea', duration: 118 },
+          { songTitle: 'Moor Rush', duration: 207 },
+          { songTitle: 'Largestipule Leather-root', duration: 194 },
+          { songTitle: 'Furcraea', duration: 118 },
         ],
       },
     ],
@@ -92,13 +92,17 @@ class Filter extends Component {
 class Playlist extends Component {
   render() {
     return (
-      <div className={`app-playlist ${this.props.className}`}>
-        <img src="https://via.placeholder.com/200x150" alt="Playlist album cover" />
-        <h3>Playlist Name</h3>
-        <ul>
-          <li>Song 1</li>
-          <li>Song 2</li>
-          <li>Song 3</li>
+      <div className="app-playlist">
+        <img
+          src="https://via.placeholder.com/200x150"
+          alt={`${this.props.title} cover`}
+          className="app-playlist-img"
+        />
+        <h3>{this.props.title}</h3>
+        <ul className="app-playlist-list">
+          {this.props.songs.map(song => (
+            <li>{song.songTitle}</li>
+          ))}
         </ul>
       </div>
     );
@@ -142,10 +146,14 @@ class App extends Component {
                   playlists={this.state.serverData.user.playlists}
                 />
                 <Filter />
-                <Playlist className="row-1" />
-                <Playlist className="row-2" />
-                <Playlist className="row-3" />
-                <Playlist className="row-4" />
+                <div className="app-playlist-wrapper">
+                  {this.state.serverData.user.playlists.map(playlist => (
+                    <Playlist
+                      title={playlist.playlistTitle}
+                      songs={playlist.songs}
+                    />
+                  ))}
+                </div>
               </main>
             </div>
           )
