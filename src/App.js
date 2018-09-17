@@ -78,12 +78,10 @@ class Filter extends Component {
   render() {
     return (
       <div className="app-filter">
-        <form action="">
-          <label htmlFor="filter">
-            <input type="text" id="filter" />
+        <label htmlFor="filter">
+          <input type="text" id="filter" onKeyUp={this.props.onTextChange} />
             Filter
-          </label>
-        </form>
+        </label>
       </div>
     );
   }
@@ -114,6 +112,7 @@ class App extends Component {
     super();
     this.state = {
       serverData: {},
+      filterString: '',
     };
   }
 
@@ -125,7 +124,22 @@ class App extends Component {
     }, 500);
   }
 
+  handleTextChange = (event) => {
+    this.setState({
+      filterString: event.target.value,
+    });
+  }
+
   render() {
+    const playlistToRender = this.state.serverData.user
+      ? (this.state.serverData.user.playlists
+        .filter(playlist =>
+          playlist.playlistTitle.toLowerCase().includes(
+            this.state.filterString.toLowerCase(),
+          ))
+      )
+      : [];
+
     return (
       <div className="app">
         { this.state.serverData.user
@@ -140,14 +154,14 @@ class App extends Component {
               </header>
               <main className="app-main">
                 <PlaylistCounter
-                  playlists={this.state.serverData.user.playlists}
+                  playlists={playlistToRender}
                 />
                 <TimeCounter
-                  playlists={this.state.serverData.user.playlists}
+                  playlists={playlistToRender}
                 />
-                <Filter />
+                <Filter onTextChange={this.handleTextChange} />
                 <div className="app-playlist-wrapper">
-                  {this.state.serverData.user.playlists.map(playlist => (
+                  {playlistToRender.map(playlist => (
                     <Playlist
                       title={playlist.playlistTitle}
                       songs={playlist.songs}
