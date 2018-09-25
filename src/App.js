@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import logo from './logo.svg';
 import './App.css';
 
@@ -40,6 +41,19 @@ const fakeServerData = {
       },
     ],
   },
+};
+
+const buttonStyle = {
+  color: '#fff',
+  border: 'none',
+  cursor: 'pointer',
+  outline: 0,
+  height: '32px',
+  width: '164px',
+  fontSize: '12px',
+  lineHeight: 1,
+  borderRadius: '500px',
+  backgroundColor: '#1db954',
 };
 
 class PlaylistCounter extends Component {
@@ -117,17 +131,23 @@ class App extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.setState({
         serverData: fakeServerData,
       });
-    }, 500);
+    }, 500); */
+    const parsed = queryString.parse(window.location.search);
+    console.log(parsed);
   }
 
   handleTextChange = (event) => {
     this.setState({
       filterString: event.target.value,
     });
+  }
+
+  handleClick = () => {
+    window.location = 'http://localhost:8888/login';
   }
 
   render() {
@@ -171,7 +191,17 @@ class App extends Component {
               </main>
             </div>
           )
-          : 'Loading...'
+          : (
+            <button
+              style={{
+                ...buttonStyle, margin: 0, padding: 0, position: 'absolute', left: 'calc(50% - 82px)', top: 'calc(50% - 12px)',
+              }}
+              type="submit"
+              onClick={this.handleClick}
+            >
+            Sign in with Spotify
+            </button>
+          )
       }
       </div>
     );

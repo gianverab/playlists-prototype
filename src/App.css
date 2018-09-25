@@ -1,6 +1,8 @@
 .app {
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: #333;
+  height: 100vh;
+  position: relative;
 }
 
 .app-logo {
@@ -26,7 +28,6 @@
   grid-template-columns: minmax(1em, 1fr) repeat(4, minmax(136px, 6fr)) minmax(1em, 1fr);
   grid-gap: 1em;
   color: #fff;
-  background-color: #333;
   box-sizing: inherit;
 }
 
