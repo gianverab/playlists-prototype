@@ -125,19 +125,37 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      serverData: {},
+      user: '',
+      playlists: [],
       filterString: '',
     };
   }
 
   componentDidMount() {
-    /* setTimeout(() => {
-      this.setState({
-        serverData: fakeServerData,
-      });
-    }, 500); */
     const parsed = queryString.parse(window.location.search);
-    console.log(parsed);
+    const accessToken = parsed.access_token;
+
+    fetch('https://api.spotify.com/v1/me', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(response => response.json())
+      .then(data => this.setState({
+        user: {
+          name: data.display_name,
+        },
+      }));
+
+    fetch('https://api.spotify.com/v1/me/playlists', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(response => response.json())
+      .then(data => this.setState({
+        playlists: data.items.map(item => ({
+          playlistTitle: item.name,
+          songs: [],
+        })),
+
+      }));
   }
 
   handleTextChange = (event) => {
@@ -151,8 +169,9 @@ class App extends Component {
   }
 
   render() {
-    const playlistToRender = this.state.serverData.user
-      ? (this.state.serverData.user.playlists
+    const playlistToRender = this.state.user
+      && this.state.playlists
+      ? (this.state.playlists
         .filter(playlist =>
           playlist.playlistTitle.toLowerCase().includes(
             this.state.filterString.toLowerCase(),
@@ -162,13 +181,13 @@ class App extends Component {
 
     return (
       <div className="app">
-        { this.state.serverData.user
+        { this.state.user
           ? (
             <div>
               <header className="app-header">
                 <img src={logo} className="app-logo" alt="logo" />
                 <h1 className="app-title">
-                  {this.state.serverData.user.name}
+                  {this.state.user.name}
                     ’s playlists
                 </h1>
               </header>
