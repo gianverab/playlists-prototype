@@ -3,46 +3,6 @@ import queryString from 'query-string';
 import logo from './logo.svg';
 import './App.css';
 
-const fakeServerData = {
-  user: {
-    name: 'Gian',
-    playlists: [
-      {
-        playlistTitle: 'Lipocarpha rehmanii',
-        songs: [
-          { songTitle: 'Rehman’s Halfchaff Sedge', duration: 180 },
-          { songTitle: 'Little Floatingheart', duration: 175 },
-          { songTitle: 'Blue Ridge St. Johnswort', duration: 232 },
-        ],
-      },
-      {
-        playlistTitle: 'Nymphoides cordata Fernald',
-        songs: [
-          { songTitle: 'Rooted Poppy', duration: 244 },
-          { songTitle: 'Lavender Thrift', duration: 195 },
-          { songTitle: 'Rough Star-thistle', duration: 228 },
-        ],
-      },
-      {
-        playlistTitle: 'Orbexilum stipulatum',
-        songs: [
-          { songTitle: 'Alpine Clover', duration: 213 },
-          { songTitle: 'Redberry Nightshade', duration: 256 },
-          { songTitle: 'Scaldweed', duration: 198 },
-        ],
-      },
-      {
-        playlistTitle: 'Cuscuta gronovii Willd',
-        songs: [
-          { songTitle: 'Moor Rush', duration: 207 },
-          { songTitle: 'Largestipule Leather-root', duration: 194 },
-          { songTitle: 'Furcraea', duration: 118 },
-        ],
-      },
-    ],
-  },
-};
-
 const buttonStyle = {
   color: '#fff',
   border: 'none',
@@ -103,10 +63,11 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
+    console.log(this.props.cover);
     return (
       <div className="app-playlist">
         <img
-          src="https://via.placeholder.com/200x150"
+          src={this.props.coverUrl}
           alt={`${this.props.title} cover`}
           className="app-playlist-img"
         />
@@ -150,10 +111,14 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(data => this.setState({
-        playlists: data.items.map(item => ({
-          playlistTitle: item.name,
-          songs: [],
-        })),
+        playlists: data.items.map((item) => {
+          console.log(data.items);
+          return {
+            playlistTitle: item.name,
+            coverUrl: item.images[0].url,
+            songs: [],
+          };
+        }),
 
       }));
   }
@@ -165,7 +130,9 @@ class App extends Component {
   }
 
   handleClick = () => {
-    window.location = 'http://localhost:8888/login';
+    window.location = window.location.href.includes('localhost')
+      ? 'http://localhost:8888/login'
+      : 'https://playlist-prototype-backend.herokuapp.com/login';
   }
 
   render() {
@@ -204,6 +171,7 @@ class App extends Component {
                     <Playlist
                       title={playlist.playlistTitle}
                       songs={playlist.songs}
+                      coverUrl={playlist.coverUrl}
                     />
                   ))}
                 </div>
