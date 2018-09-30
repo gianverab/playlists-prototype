@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans');
+
+html, body {
+  background-color: #333;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
 .app {
   box-sizing: border-box;
   background-color: #333;
@@ -5,18 +17,12 @@
   padding-bottom: 2em;
 }
 
-.app-logo {
-  animation: app-logo-spin infinite 20s linear;
-  height: 48px;
-}
-
 .app-header {
   background-color: #222;
-  height: 132px;
   padding: 16px;
   color: white;
   box-sizing: inherit;
-  border-bottom: 2px solid #e3d4c6;
+  border-bottom: 1px solid #e3d4c6;
 }
 
 .app-title {
@@ -25,7 +31,7 @@
 
 .app-main {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(288px, 1fr));
   grid-gap: 1em;
   color: #fff;
   box-sizing: inherit;
@@ -42,27 +48,57 @@
 
 .app-filter {
   grid-row: 2 / 3;
-  grid-column: 2 / 4;
+  grid-column: 2 / 3;
+}
+
+.app-filter-box {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8em;
+  padding-left: 2.8em;
+  background-color: transparent;
+  border: 1px solid #00ffff;
+  color: #fff;
+  background: url(./images/search.svg) no-repeat; 
+  background-size: 2em;
+  background-position: left 0.4em center;
 }
 
 .app-playlist-wrapper {
   grid-row: 3 / 4;
   grid-column: 2 / 6;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(136px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(288px, 1fr));
   grid-gap: 1em;
+}
+
+.app-playlist-name {
+  font-size: 1.4em;
+  color: deepskyblue;
 }
 
 .app-playlist-img {
   width: 100%;
+  max-width: 420px;
 }
 
 .app-playlist-list {
   padding: 0;
+  list-style: none;
 }
 
-@keyframes app-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@media screen and (max-width: 768px) {
+  .app-filter {
+      grid-column: 2 / 6;
+  }
+  .app-aggregate:nth-child(1) {
+    grid-column: 2 / 4;
+  }  
+  .app-aggregate:nth-child(2) {
+    grid-column: 4 / 6;
+  }
+  .app-playlist {
+    text-align: center;
+  }
 }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-import logo from './logo.svg';
 import './App.css';
 
 const buttonStyle = {
@@ -53,8 +52,13 @@ class Filter extends Component {
     return (
       <div className="app-filter">
         <label htmlFor="filter">
-          <input type="text" id="filter" onKeyUp={this.props.onTextChange} />
-            Filter
+          <input
+            type="text"
+            className="app-filter-box"
+            id="filter"
+            placeholder="Search"
+            onKeyUp={this.props.onTextChange}
+          />
         </label>
       </div>
     );
@@ -70,7 +74,7 @@ class Playlist extends Component {
           alt={`${this.props.title} cover`}
           className="app-playlist-img"
         />
-        <h3>{this.props.title}</h3>
+        <h3 className="app-playlist-name">{this.props.title}</h3>
         <ul className="app-playlist-list">
           {this.props.songs.slice(0, 3).map(song => (
             <li>{song.name}</li>
@@ -180,7 +184,6 @@ class App extends Component {
           ? (
             <div>
               <header className="app-header">
-                <img src={logo} className="app-logo" alt="logo" />
                 <h1 className="app-title">
                   {this.state.user.name}
                     ’s playlists
