@@ -35,7 +35,6 @@ class TimeCounter extends Component {
     const allSongs = this.props.playlists.reduce(
       (songs, eachPlaylist) => songs.concat(eachPlaylist.songs), [],
     );
-    console.log(allSongs);
     const totalDuration = allSongs.reduce((sum, eachSong) => sum + eachSong.duration, 0);
     return (
       <div className="app-aggregate">
@@ -64,7 +63,6 @@ class Filter extends Component {
 
 class Playlist extends Component {
   render() {
-    console.log(this.props.cover);
     return (
       <div className="app-playlist">
         <img
@@ -137,14 +135,11 @@ class App extends Component {
         return playlistsPromise;
       })
       .then(playlists => this.setState({
-        playlists: playlists.map((item) => {
-          console.log(item.trackDatas);
-          return {
-            playlistTitle: item.name,
-            coverUrl: item.images[0].url,
-            songs: item.trackDatas,
-          };
-        }),
+        playlists: playlists.map(item => ({
+          playlistTitle: item.name,
+          coverUrl: item.images[0].url,
+          songs: item.trackDatas,
+        })),
 
       }));
   }
@@ -165,10 +160,17 @@ class App extends Component {
     const playlistToRender = this.state.user
       && this.state.playlists
       ? (this.state.playlists
-        .filter(playlist =>
-          playlist.playlistTitle.toLowerCase().includes(
+        .filter((playlist) => {
+          const matchPlaylistTitle = playlist.playlistTitle.toLowerCase().includes(
             this.state.filterString.toLowerCase(),
-          ))
+          );
+
+          const matchSongTitle = playlist.songs.find(song => song.name.toLowerCase().includes(
+            this.state.filterString.toLowerCase(),
+          ));
+
+          return matchPlaylistTitle || matchSongTitle;
+        })
       )
       : [];
 
