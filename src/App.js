@@ -35,11 +35,12 @@ class TimeCounter extends Component {
     const allSongs = this.props.playlists.reduce(
       (songs, eachPlaylist) => songs.concat(eachPlaylist.songs), [],
     );
+    console.log(allSongs);
     const totalDuration = allSongs.reduce((sum, eachSong) => sum + eachSong.duration, 0);
     return (
       <div className="app-aggregate">
         <h2>
-          {Math.floor(totalDuration / 60)}
+          {Math.floor(totalDuration / 60000)}
           {' '}
             Minutes
         </h2>
@@ -73,8 +74,8 @@ class Playlist extends Component {
         />
         <h3>{this.props.title}</h3>
         <ul className="app-playlist-list">
-          {this.props.songs.map(song => (
-            <li>{song.songTitle}</li>
+          {this.props.songs.slice(0, 3).map(song => (
+            <li>{song.name}</li>
           ))}
         </ul>
       </div>
@@ -110,13 +111,38 @@ class App extends Component {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
       .then(response => response.json())
-      .then(data => this.setState({
-        playlists: data.items.map((item) => {
-          console.log(data.items);
+      .then((playlistData) => {
+        const playlists = playlistData.items;
+        const trackDataPromises = playlists.map((playlist) => {
+          const responsePromise = fetch(playlist.tracks.href, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          const trackDataPromise = responsePromise
+            .then(response => response.json());
+          return trackDataPromise;
+        });
+        const allTracksDataPromises = Promise.all(trackDataPromises);
+        const playlistsPromise = allTracksDataPromises
+          .then((trackDatas) => {
+            trackDatas.forEach((trackData, i) => {
+              playlists[i].trackDatas = trackData.items
+                .map(item => item.track)
+                .map(trackData => ({
+                  name: trackData.name,
+                  duration: trackData.duration_ms,
+                }));
+            });
+            return playlists;
+          });
+        return playlistsPromise;
+      })
+      .then(playlists => this.setState({
+        playlists: playlists.map((item) => {
+          console.log(item.trackDatas);
           return {
             playlistTitle: item.name,
             coverUrl: item.images[0].url,
-            songs: [],
+            songs: item.trackDatas,
           };
         }),
 
