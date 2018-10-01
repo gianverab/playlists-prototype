@@ -27,7 +27,7 @@ module.exports = {
     "linebreak-style": 0,
     "react/no-did-mount-set-state": 0,
     "react/no-multi-comp": 0,
-    "react/destructuring-assignment": 0,
+    "react/forbid-prop-types": 0,
     "implicit-arrow-linebreak": 0,
     "jsx-a11y/anchor-is-valid": 0
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import './App.css';
 
@@ -25,6 +26,10 @@ const PlaylistCounter = ({ playlists }) => (
   </div>
 );
 
+PlaylistCounter.propTypes = {
+  playlists: PropTypes.array.isRequired,
+};
+
 const TimeCounter = ({ playlists }) => {
   const allSongs = playlists.reduce(
     (songs, eachPlaylist) => songs.concat(eachPlaylist.songs), [],
@@ -41,6 +46,10 @@ const TimeCounter = ({ playlists }) => {
   );
 };
 
+TimeCounter.propTypes = {
+  playlists: PropTypes.array.isRequired,
+};
+
 const Filter = ({ onTextChange }) => (
   <div className="app-filter">
     <label htmlFor="filter">
@@ -54,6 +63,10 @@ const Filter = ({ onTextChange }) => (
     </label>
   </div>
 );
+
+Filter.propTypes = {
+  onTextChange: PropTypes.func.isRequired,
+};
 
 const Playlist = ({ coverUrl, title, songs }) => (
   <div className="app-playlist">
@@ -70,6 +83,12 @@ const Playlist = ({ coverUrl, title, songs }) => (
     </ul>
   </div>
 );
+
+Playlist.propTypes = {
+  coverUrl: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  songs: PropTypes.array.isRequired,
+};
 
 class App extends Component {
   constructor() {
