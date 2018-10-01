@@ -26,7 +26,6 @@ module.exports = {
     "function-paren-newline": 0,
     "linebreak-style": 0,
     "react/no-did-mount-set-state": 0,
-    "react/prefer-stateless-function": 0,
     "react/no-multi-comp": 0,
     "react/destructuring-assignment": 0,
     "implicit-arrow-linebreak": 0,

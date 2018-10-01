@@ -89,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media screen and (max-width: 768px) {
   .app-filter {
-      grid-column: 2 / 6;
+    grid-column: 2 / 6;
   }
   .app-aggregate:nth-child(1) {
     grid-column: 2 / 4;

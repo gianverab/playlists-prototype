@@ -15,75 +15,61 @@ const buttonStyle = {
   backgroundColor: '#1db954',
 };
 
-class PlaylistCounter extends Component {
-  render() {
-    return (
-      <div className="app-aggregate">
-        <h2>
-          {this.props.playlists.length}
-          {' '}
+const PlaylistCounter = ({ playlists }) => (
+  <div className="app-aggregate">
+    <h2>
+      {playlists.length}
+      {' '}
             Playlists
-        </h2>
-      </div>
-    );
-  }
-}
+    </h2>
+  </div>
+);
 
-class TimeCounter extends Component {
-  render() {
-    const allSongs = this.props.playlists.reduce(
-      (songs, eachPlaylist) => songs.concat(eachPlaylist.songs), [],
-    );
-    const totalDuration = allSongs.reduce((sum, eachSong) => sum + eachSong.duration, 0);
-    return (
-      <div className="app-aggregate">
-        <h2>
-          {Math.floor(totalDuration / 60000)}
-          {' '}
+const TimeCounter = ({ playlists }) => {
+  const allSongs = playlists.reduce(
+    (songs, eachPlaylist) => songs.concat(eachPlaylist.songs), [],
+  );
+  const totalDuration = allSongs.reduce((sum, eachSong) => sum + eachSong.duration, 0);
+  return (
+    <div className="app-aggregate">
+      <h2>
+        {Math.floor(totalDuration / 60000)}
+        {' '}
             Minutes
-        </h2>
-      </div>
-    );
-  }
-}
+      </h2>
+    </div>
+  );
+};
 
-class Filter extends Component {
-  render() {
-    return (
-      <div className="app-filter">
-        <label htmlFor="filter">
-          <input
-            type="text"
-            className="app-filter-box"
-            id="filter"
-            placeholder="Search"
-            onKeyUp={this.props.onTextChange}
-          />
-        </label>
-      </div>
-    );
-  }
-}
+const Filter = ({ onTextChange }) => (
+  <div className="app-filter">
+    <label htmlFor="filter">
+      <input
+        type="text"
+        className="app-filter-box"
+        id="filter"
+        placeholder="Search"
+        onKeyUp={onTextChange}
+      />
+    </label>
+  </div>
+);
 
-class Playlist extends Component {
-  render() {
-    return (
-      <div className="app-playlist">
-        <img
-          src={this.props.coverUrl}
-          alt={`${this.props.title} cover`}
-          className="app-playlist-img"
-        />
-        <h3 className="app-playlist-name">{this.props.title}</h3>
-        <ul className="app-playlist-list">
-          {this.props.songs.slice(0, 3).map(song => (
-            <li>{song.name}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
+const Playlist = ({ coverUrl, title, songs }) => (
+  <div className="app-playlist">
+    <img
+      src={coverUrl}
+      alt={`${title} cover`}
+      className="app-playlist-img"
+    />
+    <h3 className="app-playlist-name">{title}</h3>
+    <ul className="app-playlist-list">
+      {songs.slice(0, 3).map(song => (
+        <li>{song.name}</li>
+      ))}
+    </ul>
+  </div>
+);
 
 class App extends Component {
   constructor() {
