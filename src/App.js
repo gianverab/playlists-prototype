@@ -134,9 +134,9 @@ class App extends Component {
             trackDatas.forEach((trackData, i) => {
               playlists[i].trackDatas = trackData.items
                 .map(item => item.track)
-                .map(trackData => ({
-                  name: trackData.name,
-                  duration: trackData.duration_ms,
+                .map(track => ({
+                  name: track.name,
+                  duration: track.duration_ms,
                 }));
             });
             return playlists;
@@ -166,16 +166,17 @@ class App extends Component {
   }
 
   render() {
-    const playlistToRender = this.state.user
-      && this.state.playlists
-      ? (this.state.playlists
+    const { user, playlists, filterString } = this.state;
+    const playlistToRender = user
+      && playlists
+      ? (playlists
         .filter((playlist) => {
           const matchPlaylistTitle = playlist.playlistTitle.toLowerCase().includes(
-            this.state.filterString.toLowerCase(),
+            filterString.toLowerCase(),
           );
 
           const matchSongTitle = playlist.songs.find(song => song.name.toLowerCase().includes(
-            this.state.filterString.toLowerCase(),
+            filterString.toLowerCase(),
           ));
 
           return matchPlaylistTitle || matchSongTitle;
@@ -185,12 +186,12 @@ class App extends Component {
 
     return (
       <div className="app">
-        { this.state.user
+        { user
           ? (
             <div>
               <header className="app-header">
                 <h1 className="app-title">
-                  {this.state.user.name}
+                  {user.name}
                     ’s playlists
                 </h1>
               </header>
