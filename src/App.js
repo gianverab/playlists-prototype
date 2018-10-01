@@ -78,7 +78,7 @@ const Playlist = ({ coverUrl, title, songs }) => (
     <h3 className="app-playlist-name">{title}</h3>
     <ul className="app-playlist-list">
       {songs.slice(0, 3).map(song => (
-        <li>{song.name}</li>
+        <li key={song.id}>{song.name}</li>
       ))}
     </ul>
   </div>
@@ -137,6 +137,7 @@ class App extends Component {
                 .map(track => ({
                   name: track.name,
                   duration: track.duration_ms,
+                  id: track.id,
                 }));
             });
             return playlists;
@@ -148,6 +149,7 @@ class App extends Component {
           playlistTitle: item.name,
           coverUrl: item.images[0].url,
           songs: item.trackDatas,
+          id: item.id,
         })),
 
       }));
@@ -209,8 +211,10 @@ class App extends Component {
                       title={playlist.playlistTitle}
                       songs={playlist.songs}
                       coverUrl={playlist.coverUrl}
+                      key={playlist.id}
                     />
-                  ))}
+                  ),
+                  )}
                 </div>
               </main>
             </div>
